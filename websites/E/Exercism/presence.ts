@@ -1,28 +1,19 @@
+import { Assets } from 'premid'
+
 // Setup
 
-/**
- * Discord Application ID: Diego's Exercism app (1574465540955701381).
- * If you ever switch apps, just replace the string below.
- */
 const presence = new Presence({
   clientId: '1574465540955701381',
 })
 
 enum ActivityAssets {
-  Logo = 'https://assets.exercism.org/meta/android-chrome-512x512.png',
-  Writing = 'https://cdn.rcd.gg/PreMiD/resources/writing.png',
-  Reading = 'https://cdn.rcd.gg/PreMiD/resources/reading.png',
-  Search = 'https://cdn.rcd.gg/PreMiD/resources/search.png',
-  Viewing = 'https://cdn.rcd.gg/PreMiD/resources/viewing.png',
+  Logo = 'https://raw.githubusercontent.com/dizzi1222/premid-activities/premid-assets/Exercism/logo.png',
 }
 
 const SITE_URL = 'https://exercism.org'
 
 /** Locale prefix of translated pages, e.g. `/es-ES/tracks` or `/pt-BR`. */
 const LOCALE_PREFIX = /^\/[a-z]{2}(?:-[a-z]{2,4})?(?=\/|$)/i
-
-/** Order matches the `lang` setting values in metadata.json. */
-const LANGS = ['en', 'es'] as const
 
 /** Track slugs whose title is not just the slug in Title Case. */
 const TRACK_NAMES: Readonly<Record<string, string>> = {
@@ -65,113 +56,69 @@ const TRACK_NAMES: Readonly<Record<string, string>> = {
 
 // Strings
 
-const EN = {
-  browsing: 'Browsing Exercism',
-  home: 'Viewing the home page',
-  dashboard: 'Viewing the dashboard',
-  tracks: 'Browsing tracks',
-  tracksState: 'Choosing a language',
-  track: 'Viewing a track',
-  trackState: '{0} track',
-  exercises: 'Browsing exercises',
-  exercise: 'Viewing {0}',
-  exercisePrivate: 'Viewing an exercise',
-  solving: 'Solving {0}',
-  solvingPrivate: 'Solving an exercise',
-  iterations: 'Reviewing iterations of {0}',
-  iterationsPrivate: 'Reviewing iterations',
-  solutions: 'Community solutions: {0}',
-  solutionsPrivate: 'Browsing community solutions',
-  digDeeper: 'Digging deeper into {0}',
-  digDeeperPrivate: 'Digging deeper into an exercise',
-  mentorSession: 'Getting mentored on {0}',
-  mentorSessionPrivate: 'Getting mentored',
-  concepts: 'Browsing concepts',
-  concept: 'Learning {0}',
-  conceptPrivate: 'Learning a concept',
-  mentoring: 'Mentoring',
-  mentoringInbox: 'Checking the inbox',
-  mentoringQueue: 'Browsing the queue',
-  mentoringDiscussion: 'Mentoring a student',
-  mentoringRequest: 'Reviewing a request',
-  profile: 'Viewing a profile',
-  journey: 'Reviewing their journey',
-  community: 'Exploring the community',
-  blog: 'Browsing the blog',
-  blogPost: 'Reading a blog post',
-  docs: 'Reading the docs',
-  contributing: 'Contributing to Exercism',
-  maintaining: 'Maintaining tracks',
-  settings: 'Adjusting settings',
-  notifications: 'Checking notifications',
-  challenge: 'Taking on a challenge',
-  insiders: 'Checking out Insiders',
-  donate: 'Supporting Exercism',
-  about: 'Learning about Exercism',
-  buttonExercise: 'View Exercise',
-  buttonTrack: 'View Track',
-  buttonProfile: 'View Profile',
-  buttonPost: 'Read Post',
+/**
+ * Fetches the texts in the language chosen in the activity settings
+ * (common `general.*` strings plus this activity's `exercism.*` strings).
+ * @returns Translated texts, keyed like the object below.
+ */
+async function getStrings() {
+  return presence.getStrings({
+    browsing: 'general.browsing',
+    home: 'general.viewHome',
+    profile: 'general.viewAProfile',
+    blogPost: 'general.readingAnArticle',
+    settings: 'general.viewAccount',
+    buttonProfile: 'general.buttonViewProfile',
+    buttonPost: 'general.buttonReadArticle',
+    dashboard: 'exercism.dashboard',
+    tracks: 'exercism.tracks',
+    chooseLanguage: 'exercism.chooseLanguage',
+    track: 'exercism.track',
+    trackOf: 'exercism.trackOf',
+    exercises: 'exercism.exercises',
+    viewExercise: 'exercism.viewExercise',
+    viewAnExercise: 'exercism.viewAnExercise',
+    solving: 'exercism.solving',
+    solvingAnExercise: 'exercism.solvingAnExercise',
+    iterations: 'exercism.iterations',
+    iterationsPrivate: 'exercism.iterationsPrivate',
+    solutions: 'exercism.solutions',
+    solutionsPrivate: 'exercism.solutionsPrivate',
+    digDeeper: 'exercism.digDeeper',
+    digDeeperPrivate: 'exercism.digDeeperPrivate',
+    mentored: 'exercism.mentored',
+    mentoredPrivate: 'exercism.mentoredPrivate',
+    concepts: 'exercism.concepts',
+    learning: 'exercism.learning',
+    learningAConcept: 'exercism.learningAConcept',
+    mentoring: 'exercism.mentoring',
+    mentoringInbox: 'exercism.mentoringInbox',
+    mentoringQueue: 'exercism.mentoringQueue',
+    mentoringStudent: 'exercism.mentoringStudent',
+    mentoringRequest: 'exercism.mentoringRequest',
+    journey: 'exercism.journey',
+    community: 'exercism.community',
+    blog: 'exercism.blog',
+    docs: 'exercism.docs',
+    contributing: 'exercism.contributing',
+    maintaining: 'exercism.maintaining',
+    notifications: 'exercism.notifications',
+    challenge: 'exercism.challenge',
+    insiders: 'exercism.insiders',
+    donate: 'exercism.donate',
+    about: 'exercism.about',
+    buttonExercise: 'exercism.buttonViewExercise',
+    buttonTrack: 'exercism.buttonViewTrack',
+  })
 }
-
-/** Every translatable text key (English is the reference set). */
-type StringKey = keyof typeof EN
-
-const ES: Readonly<Record<StringKey, string>> = {
-  browsing: 'Navegando por Exercism',
-  home: 'En la página de inicio',
-  dashboard: 'Viendo el panel',
-  tracks: 'Explorando tracks',
-  tracksState: 'Eligiendo un lenguaje',
-  track: 'Viendo un track',
-  trackState: 'Track de {0}',
-  exercises: 'Explorando ejercicios',
-  exercise: 'Viendo {0}',
-  exercisePrivate: 'Viendo un ejercicio',
-  solving: 'Resolviendo {0}',
-  solvingPrivate: 'Resolviendo un ejercicio',
-  iterations: 'Revisando iteraciones de {0}',
-  iterationsPrivate: 'Revisando iteraciones',
-  solutions: 'Soluciones de la comunidad: {0}',
-  solutionsPrivate: 'Viendo soluciones de la comunidad',
-  digDeeper: 'Profundizando en {0}',
-  digDeeperPrivate: 'Profundizando en un ejercicio',
-  mentorSession: 'Recibiendo mentoría en {0}',
-  mentorSessionPrivate: 'Recibiendo mentoría',
-  concepts: 'Explorando conceptos',
-  concept: 'Aprendiendo {0}',
-  conceptPrivate: 'Aprendiendo un concepto',
-  mentoring: 'Dando mentoría',
-  mentoringInbox: 'Revisando la bandeja',
-  mentoringQueue: 'Explorando la cola',
-  mentoringDiscussion: 'Mentorizando a un estudiante',
-  mentoringRequest: 'Revisando una solicitud',
-  profile: 'Viendo un perfil',
-  journey: 'Revisando su progreso',
-  community: 'Explorando la comunidad',
-  blog: 'Explorando el blog',
-  blogPost: 'Leyendo un artículo del blog',
-  docs: 'Leyendo la documentación',
-  contributing: 'Contribuyendo a Exercism',
-  maintaining: 'Manteniendo tracks',
-  settings: 'Ajustando la configuración',
-  notifications: 'Revisando notificaciones',
-  challenge: 'Aceptando un reto',
-  insiders: 'Viendo Insiders',
-  donate: 'Apoyando a Exercism',
-  about: 'Conociendo Exercism',
-  buttonExercise: 'Ver ejercicio',
-  buttonTrack: 'Ver track',
-  buttonProfile: 'Ver perfil',
-  buttonPost: 'Leer artículo',
-}
-
-const STRINGS: Readonly<Record<Lang, Readonly<Record<StringKey, string>>>> = { en: EN, es: ES }
 
 // Types
 
-/** Language of the activity texts. */
-type Lang = typeof LANGS[number]
+/** Texts returned by {@link getStrings}. */
+type Strings = Awaited<ReturnType<typeof getStrings>>
+
+/** Key of a text in {@link Strings}. */
+type StringKey = keyof Strings
 
 /** Translates a key, replacing `{0}`, `{1}`... with the extra arguments. */
 type Translator = (key: StringKey, ...args: string[]) => string
@@ -197,7 +144,7 @@ interface IRoute {
   /** Bottom line; hidden in privacy mode. */
   state?: string
   /** Small image when no track icon applies. */
-  icon: ActivityAssets
+  icon: Assets
   /** Track of the page, if any (drives the small track icon). */
   track?: INamedSlug
   buttons?: IButton[]
@@ -228,12 +175,12 @@ interface IExerciseContext {
 // Helpers
 
 /**
- * Builds a translator for one language.
- * @param lang Language of the returned texts.
+ * Builds a translator over the fetched texts.
+ * @param strings Texts from {@link getStrings}.
  * @returns Function that resolves a key and fills its `{n}` placeholders.
  */
-function createTranslator(lang: Lang): Translator {
-  return (key, ...args) => STRINGS[lang][key].replace(/\{(\d+)\}/g, (_, index: string) => args[Number(index)] ?? '')
+function createTranslator(strings: Strings): Translator {
+  return (key, ...args) => strings[key].replace(/\{(\d+)\}/g, (_, index: string) => args[Number(index)] ?? '')
 }
 
 /**
@@ -296,7 +243,9 @@ function resolveExercise(slug: string, isExercisePage: boolean): INamedSlug {
   return {
     slug,
     title: textOf('.c-react-wrapper-editor .title .exercise')
-      ?? (isExercisePage ? textOf('h1') : undefined)
+      ?? (isExercisePage
+        ? textOf('h1')
+        : undefined)
       ?? titleCase(slug),
   }
 }
@@ -314,42 +263,42 @@ function trackIconUrl(slug: string): string {
 // Routes
 
 /** Exercise sub-pages: [details key, privacy key, icon]. Unknown ones count as the exercise page. */
-const EXERCISE_ACTIONS: Readonly<Record<string, readonly [StringKey, StringKey, ActivityAssets]>> = {
-  edit: ['solving', 'solvingPrivate', ActivityAssets.Writing],
-  iterations: ['iterations', 'iterationsPrivate', ActivityAssets.Viewing],
-  solutions: ['solutions', 'solutionsPrivate', ActivityAssets.Reading],
-  dig_deeper: ['digDeeper', 'digDeeperPrivate', ActivityAssets.Reading],
-  approaches: ['digDeeper', 'digDeeperPrivate', ActivityAssets.Reading],
-  articles: ['digDeeper', 'digDeeperPrivate', ActivityAssets.Reading],
-  mentor_discussions: ['mentorSession', 'mentorSessionPrivate', ActivityAssets.Reading],
-  mentor_request: ['mentorSession', 'mentorSessionPrivate', ActivityAssets.Reading],
+const EXERCISE_ACTIONS: Readonly<Record<string, readonly [StringKey, StringKey, Assets]>> = {
+  edit: ['solving', 'solvingAnExercise', Assets.Writing],
+  iterations: ['iterations', 'iterationsPrivate', Assets.Viewing],
+  solutions: ['solutions', 'solutionsPrivate', Assets.Reading],
+  dig_deeper: ['digDeeper', 'digDeeperPrivate', Assets.Reading],
+  approaches: ['digDeeper', 'digDeeperPrivate', Assets.Reading],
+  articles: ['digDeeper', 'digDeeperPrivate', Assets.Reading],
+  mentor_discussions: ['mentored', 'mentoredPrivate', Assets.Reading],
+  mentor_request: ['mentored', 'mentoredPrivate', Assets.Reading],
 }
 
-const EXERCISE_PAGE: readonly [StringKey, StringKey, ActivityAssets] = ['exercise', 'exercisePrivate', ActivityAssets.Viewing]
+const EXERCISE_PAGE: readonly [StringKey, StringKey, Assets] = ['viewExercise', 'viewAnExercise', Assets.Viewing]
 
 /** Mentoring sub-pages: state key. Student names are never shown. */
 const MENTORING_STATES: Readonly<Record<string, StringKey>> = {
   inbox: 'mentoringInbox',
   queue: 'mentoringQueue',
-  discussions: 'mentoringDiscussion',
+  discussions: 'mentoringStudent',
   requests: 'mentoringRequest',
 }
 
 /** Sections that only depend on the first segment: [details key, icon, show `<h1>` on sub-pages]. */
-const SECTIONS: Readonly<Record<string, readonly [StringKey, ActivityAssets, boolean]>> = {
-  '': ['home', ActivityAssets.Viewing, false],
-  'dashboard': ['dashboard', ActivityAssets.Viewing, false],
-  'journey': ['journey', ActivityAssets.Viewing, false],
-  'community': ['community', ActivityAssets.Viewing, false],
-  'docs': ['docs', ActivityAssets.Reading, true],
-  'contributing': ['contributing', ActivityAssets.Viewing, false],
-  'maintaining': ['maintaining', ActivityAssets.Viewing, false],
-  'settings': ['settings', ActivityAssets.Viewing, false],
-  'notifications': ['notifications', ActivityAssets.Viewing, false],
-  'challenges': ['challenge', ActivityAssets.Viewing, true],
-  'insiders': ['insiders', ActivityAssets.Viewing, false],
-  'donate': ['donate', ActivityAssets.Viewing, false],
-  'about': ['about', ActivityAssets.Reading, false],
+const SECTIONS: Readonly<Record<string, readonly [StringKey, Assets, boolean]>> = {
+  '': ['home', Assets.Viewing, false],
+  'dashboard': ['dashboard', Assets.Viewing, false],
+  'journey': ['journey', Assets.Viewing, false],
+  'community': ['community', Assets.Viewing, false],
+  'docs': ['docs', Assets.Reading, true],
+  'contributing': ['contributing', Assets.Viewing, false],
+  'maintaining': ['maintaining', Assets.Viewing, false],
+  'settings': ['settings', Assets.Viewing, false],
+  'notifications': ['notifications', Assets.Viewing, false],
+  'challenges': ['challenge', Assets.Viewing, true],
+  'insiders': ['insiders', Assets.Viewing, false],
+  'donate': ['donate', Assets.Viewing, false],
+  'about': ['about', Assets.Reading, false],
 }
 
 /**
@@ -367,11 +316,14 @@ function matchExercise({ t, track, trackButton, exercise, action }: IExerciseCon
   return {
     details: t(detailsKey, exercise.title),
     privateDetails: t(privateKey),
-    state: t('trackState', track.title),
+    state: t('trackOf', track.title),
     icon,
     track,
     buttons: [
-      { label: t('buttonExercise'), url: `${SITE_URL}/tracks/${track.slug}/exercises/${exercise.slug}` },
+      {
+        label: t('buttonExercise'),
+        url: `${SITE_URL}/tracks/${track.slug}/exercises/${exercise.slug}`,
+      },
       trackButton,
     ],
     timerKey: `exercise:${track.slug}/${exercise.slug}`,
@@ -383,22 +335,67 @@ const matchTracks: RouteMatcher = ({ segments, t }) => {
   const [section, trackSlug, area, itemSlug, action] = segments
   if (section !== 'tracks')
     return null
-  if (!trackSlug)
-    return { details: t('tracks'), privateDetails: t('tracks'), state: t('tracksState'), icon: ActivityAssets.Search, timerKey: 'tracks' }
+  if (!trackSlug) {
+    return {
+      details: t('tracks'),
+      privateDetails: t('tracks'),
+      state: t('chooseLanguage'),
+      icon: Assets.Search,
+      timerKey: 'tracks',
+    }
+  }
 
   const track = resolveTrack(trackSlug)
-  const trackButton: IButton = { label: t('buttonTrack'), url: `${SITE_URL}/tracks/${track.slug}` }
-  const inTrack = { track, state: t('trackState', track.title), buttons: [trackButton], timerKey: `track:${track.slug}` }
+  const trackButton: IButton = {
+    label: t('buttonTrack'),
+    url: `${SITE_URL}/tracks/${track.slug}`,
+  }
+  const inTrack = {
+    track,
+    state: t('trackOf', track.title),
+    buttons: [trackButton],
+    timerKey: `track:${track.slug}`,
+  }
 
-  if (area === 'exercises' && itemSlug)
-    return matchExercise({ t, track, trackButton, exercise: resolveExercise(itemSlug, !action), action })
-  if (area === 'exercises')
-    return { ...inTrack, details: t('exercises'), privateDetails: t('exercises'), icon: ActivityAssets.Search }
-  if (area === 'concepts' && itemSlug)
-    return { ...inTrack, details: t('concept', ownTextOf('h1') ?? titleCase(itemSlug)), privateDetails: t('conceptPrivate'), icon: ActivityAssets.Reading }
-  if (area === 'concepts')
-    return { ...inTrack, details: t('concepts'), privateDetails: t('concepts'), icon: ActivityAssets.Search }
-  return { ...inTrack, details: t('track'), privateDetails: t('track'), icon: ActivityAssets.Viewing }
+  if (area === 'exercises' && itemSlug) {
+    return matchExercise({
+      t,
+      track,
+      trackButton,
+      exercise: resolveExercise(itemSlug, !action),
+      action,
+    })
+  }
+  if (area === 'exercises') {
+    return {
+      ...inTrack,
+      details: t('exercises'),
+      privateDetails: t('exercises'),
+      icon: Assets.Search,
+    }
+  }
+  if (area === 'concepts' && itemSlug) {
+    return {
+      ...inTrack,
+      details: t('learning', ownTextOf('h1') ?? titleCase(itemSlug)),
+      privateDetails: t('learningAConcept'),
+      icon: Assets.Reading,
+    }
+  }
+  if (area === 'concepts') {
+    return {
+      ...inTrack,
+      details: t('concepts'),
+      privateDetails: t('concepts'),
+      icon: Assets.Search,
+    }
+  }
+  return {
+    ...inTrack,
+    details: t('track'),
+    privateDetails: t('track'),
+    icon: Assets.Viewing,
+  }
 }
 
 /** Mentoring area: inbox, queue, discussions, requests. */
@@ -406,7 +403,13 @@ const matchMentoring: RouteMatcher = ({ segments: [section, area], t }) => {
   if (section !== 'mentoring')
     return null
   const stateKey = area ? MENTORING_STATES[area] : undefined
-  return { details: t('mentoring'), privateDetails: t('mentoring'), state: stateKey && t(stateKey), icon: ActivityAssets.Reading, timerKey: 'mentoring' }
+  return {
+    details: t('mentoring'),
+    privateDetails: t('mentoring'),
+    state: stateKey && t(stateKey),
+    icon: Assets.Reading,
+    timerKey: 'mentoring',
+  }
 }
 
 /** Public profiles: /profiles/:handle. */
@@ -417,8 +420,13 @@ const matchProfile: RouteMatcher = ({ segments: [section, handle], t }) => {
     details: t('profile'),
     privateDetails: t('profile'),
     state: `@${handle}`,
-    icon: ActivityAssets.Viewing,
-    buttons: [{ label: t('buttonProfile'), url: `${SITE_URL}/profiles/${handle}` }],
+    icon: Assets.Viewing,
+    buttons: [
+      {
+        label: t('buttonProfile'),
+        url: `${SITE_URL}/profiles/${handle}`,
+      },
+    ],
     timerKey: 'site',
   }
 }
@@ -427,14 +435,25 @@ const matchProfile: RouteMatcher = ({ segments: [section, handle], t }) => {
 const matchBlog: RouteMatcher = ({ segments: [section, post], t }) => {
   if (section !== 'blog')
     return null
-  if (!post)
-    return { details: t('blog'), privateDetails: t('blog'), icon: ActivityAssets.Search, timerKey: 'site' }
+  if (!post) {
+    return {
+      details: t('blog'),
+      privateDetails: t('blog'),
+      icon: Assets.Search,
+      timerKey: 'site',
+    }
+  }
   return {
     details: t('blogPost'),
     privateDetails: t('blogPost'),
     state: textOf('h1'),
-    icon: ActivityAssets.Reading,
-    buttons: [{ label: t('buttonPost'), url: `${SITE_URL}/blog/${post}` }],
+    icon: Assets.Reading,
+    buttons: [
+      {
+        label: t('buttonPost'),
+        url: `${SITE_URL}/blog/${post}`,
+      },
+    ],
     timerKey: 'site',
   }
 }
@@ -448,13 +467,21 @@ const matchSection: RouteMatcher = ({ segments, t }) => {
   return {
     details: t(key),
     privateDetails: t(key),
-    state: headingAsState && segments.length > 1 ? textOf('h1') : undefined,
+    state: headingAsState && segments.length > 1
+      ? textOf('h1')
+      : undefined,
     icon,
     timerKey: 'site',
   }
 }
 
-const ROUTES: readonly RouteMatcher[] = [matchTracks, matchMentoring, matchProfile, matchBlog, matchSection]
+const ROUTES: readonly RouteMatcher[] = [
+  matchTracks,
+  matchMentoring,
+  matchProfile,
+  matchBlog,
+  matchSection,
+]
 
 /**
  * Resolves the current page. Strips the locale first (`/es-ES/tracks` → `/tracks`)
@@ -466,13 +493,25 @@ const ROUTES: readonly RouteMatcher[] = [matchTracks, matchMentoring, matchProfi
 function resolveRoute(pathname: string, t: Translator): IRoute {
   const segments = pathname.replace(LOCALE_PREFIX, '').split('/').filter(Boolean)
   return ROUTES.reduce<IRoute | null>((found, match) => found ?? match({ segments, t }), null)
-    ?? { details: t('browsing'), privateDetails: t('browsing'), icon: ActivityAssets.Viewing, timerKey: 'site' }
+    ?? {
+      details: t('browsing'),
+      privateDetails: t('browsing'),
+      icon: Assets.Viewing,
+      timerKey: 'site',
+    }
 }
 
 // Presence
 
 /** Elapsed-time anchor; restarts when the route's timerKey changes. */
-let timer = { key: '', start: Math.floor(Date.now() / 1000) }
+let timer = {
+  key: '',
+  start: Math.floor(Date.now() / 1000),
+}
+
+/** Texts for {@link oldLang}; fetched again when the language setting changes. */
+let strings: Strings | undefined
+let oldLang: string | undefined
 
 /**
  * Start timestamp (seconds) for a timer key, restarting it on key change.
@@ -480,32 +519,53 @@ let timer = { key: '', start: Math.floor(Date.now() / 1000) }
  * @returns Unix seconds when the current key started.
  */
 function startTimestampFor(key: string): number {
-  if (timer.key !== key)
-    timer = { key, start: Math.floor(Date.now() / 1000) }
+  if (timer.key !== key) {
+    timer = {
+      key,
+      start: Math.floor(Date.now() / 1000),
+    }
+  }
   return timer.start
 }
 
 presence.on('UpdateData', async () => {
   const [lang, privacy, showTrackIcon, showTimestamp, showButtons] = await Promise.all([
-    presence.getSetting<number>('lang'),
+    presence.getSetting<string>('lang').catch(() => 'en'),
     presence.getSetting<boolean>('privacy'),
     presence.getSetting<boolean>('trackIcon'),
     presence.getSetting<boolean>('timestamp'),
     presence.getSetting<boolean>('buttons'),
   ])
-  const route = resolveRoute(document.location.pathname, createTranslator(LANGS[lang] ?? 'es'))
-  const track = !privacy && showTrackIcon ? route.track : undefined
-  const [firstButton, secondButton] = !privacy && showButtons ? route.buttons ?? [] : []
+  if (!strings || lang !== oldLang) {
+    oldLang = lang
+    strings = await getStrings()
+  }
+
+  const route = resolveRoute(document.location.pathname, createTranslator(strings))
+  const track = !privacy && showTrackIcon
+    ? route.track
+    : undefined
+  const [firstButton, secondButton] = !privacy && showButtons
+    ? route.buttons ?? []
+    : []
 
   const presenceData: PresenceData = {
-    name: 'Exercism',
     largeImageKey: ActivityAssets.Logo,
     details: privacy ? route.privateDetails : route.details,
-    state: privacy ? undefined : route.state,
-    smallImageKey: track ? trackIconUrl(track.slug) : route.icon,
-    smallImageText: track?.title,
-    startTimestamp: showTimestamp ? startTimestampFor(route.timerKey) : undefined,
-    buttons: firstButton ? (secondButton ? [firstButton, secondButton] : [firstButton]) : undefined,
+    smallImageKey: track
+      ? trackIconUrl(track.slug)
+      : route.icon,
+  }
+  if (track)
+    presenceData.smallImageText = track.title
+  if (!privacy && route.state)
+    presenceData.state = route.state
+  if (showTimestamp)
+    presenceData.startTimestamp = startTimestampFor(route.timerKey)
+  if (firstButton) {
+    presenceData.buttons = secondButton
+      ? [firstButton, secondButton]
+      : [firstButton]
   }
 
   presence.setActivity(presenceData)

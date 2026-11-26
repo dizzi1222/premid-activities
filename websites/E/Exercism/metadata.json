@@ -13,8 +13,8 @@
   "url": "exercism.org",
   "regExp": "^https?[:][/][/](www[.])?exercism[.]org[/]",
   "version": "1.0.0",
-  "logo": "https://assets.exercism.org/meta/android-chrome-512x512.png",
-  "thumbnail": "https://assets.exercism.org/meta/og.png",
+  "logo": "https://raw.githubusercontent.com/dizzi1222/premid-activities/premid-assets/Exercism/logo.png",
+  "thumbnail": "https://raw.githubusercontent.com/dizzi1222/premid-activities/premid-assets/Exercism/thumbnail.png",
   "color": "#604fcd",
   "category": "other",
   "tags": [
@@ -27,13 +27,7 @@
   "settings": [
     {
       "id": "lang",
-      "title": "Language / Idioma",
-      "icon": "fad fa-language",
-      "value": 1,
-      "values": [
-        "English",
-        "Español"
-      ]
+      "multiLanguage": true
     },
     {
       "id": "privacy",
